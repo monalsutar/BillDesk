@@ -1,3 +1,4 @@
+import 'package:bill_generation/login.dart';
 import 'package:flutter/material.dart';
 import 'package:bill_generation/second.dart';
 
@@ -28,18 +29,20 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   TextEditingController merchantname = new TextEditingController();
+  TextEditingController categoryname = new TextEditingController();
 
   @override
   void dispose(){
     merchantname.dispose();
+    categoryname.dispose();
     super.dispose();
   }
 
-  void getStarted(BuildContext context, String mname) {
+  void getStarted(BuildContext context, String mname, String category) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => SecondApp(mname),
+        builder: (context) => SecondApp(mname,category),
       ),
     );
   }
@@ -88,6 +91,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       textAlign: TextAlign.left,
                     ),
+
+
+
                     const SizedBox(height: 50),
                     TextField(
                       decoration: InputDecoration(
@@ -96,24 +102,45 @@ class _MyHomePageState extends State<MyHomePage> {
                         prefixIcon: Icon(Icons.person),
                       ),
                       controller: merchantname,
+
                     ),
+
+
+
                     const SizedBox(height: 18),
-                    const TextField(
+                    TextField(
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
-                        hintText: "Category",
-                        prefixIcon: Icon(Icons.category)
+                        hintText: "Email",
+                        prefixIcon: Icon(Icons.email),
                       ),
+
                     ),
+
+
+
+                    const SizedBox(height: 18),
+                     TextField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: "Password",
+                        prefixIcon: Icon(Icons.password)
+                      ),
+                      controller: categoryname,
+                    ),
+
+
+
                     const SizedBox(height: 20),
                     Row(
                       children: [
                         ElevatedButton(
                           onPressed: () {
                             String mname = merchantname.text;
+                            String category = categoryname.text;
                             print("Name: $mname");
 
-                            getStarted(context,mname);
+                            getStarted(context,mname,category);
 
                           },
                           child: Text(
@@ -129,11 +156,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
                           ),
                         ),
-                        SizedBox(width: 85),
+                        SizedBox(width: 8),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Login(),
+                              ),
+                            );
+                          },
                           child: Text(
-                            "Continue",
+                            "Continue Log in",
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,

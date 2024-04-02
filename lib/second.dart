@@ -3,14 +3,30 @@ import 'package:bill_generation/third.dart';
 
 class SecondApp extends StatefulWidget {
   final String mname;
+  final String cat;
 
-  SecondApp(this.mname, {Key? key}) : super(key: key);
+  SecondApp(this.mname, this.cat, {Key? key}) : super(key: key);
 
   @override
   State<SecondApp> createState() => _SecondAppState();
 }
 
 class _SecondAppState extends State<SecondApp> {
+  TextEditingController customerNameController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
+
+  @override
+  void dispose() {
+    customerNameController.dispose();
+    phoneNumberController.dispose();
+    super.dispose();
+  }
+
+  void resetTextFields() {
+    customerNameController.clear();
+    phoneNumberController.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +44,7 @@ class _SecondAppState extends State<SecondApp> {
                     Padding(
                       padding: const EdgeInsets.all(15),
                       child: Text(
-                        "Merchant Name: "+widget.mname,
+                        "Merchant Name: " + widget.mname,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 17,
@@ -36,18 +52,6 @@ class _SecondAppState extends State<SecondApp> {
                         ),
                       ),
                     ),
-                    //SizedBox(width: 20),
-                    Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Text(
-                        "Category: ",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    )
                   ],
                 ),
               ),
@@ -63,6 +67,7 @@ class _SecondAppState extends State<SecondApp> {
                   child: Column(
                     children: [
                       TextField(
+                        controller: customerNameController,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           hintText: "Customer Name:",
@@ -72,6 +77,7 @@ class _SecondAppState extends State<SecondApp> {
                       ),
                       SizedBox(height: 29),
                       TextField(
+                        controller: phoneNumberController,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           hintText: "Phone Number:",
@@ -102,9 +108,11 @@ class _SecondAppState extends State<SecondApp> {
                               backgroundColor: Colors.blue,
                             ),
                           ),
-                          SizedBox(width: 80),
+                          SizedBox(width: 62),
                           ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              resetTextFields();
+                            },
                             child: Text(
                               "New Customer",
                               style: TextStyle(
