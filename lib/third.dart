@@ -129,162 +129,165 @@ class _ThirdAppState extends State<ThirdApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 70,
-              color: Colors.blue,
-              child: Row(
+      body: SingleChildScrollView(
+        child: Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: 70,
+                color: Colors.blue,
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Text(
+                        "Product Details ",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: TextFormField(
+                  controller: nameController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: "Product Name",
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20, top: 15),
+                child: TextFormField(
+                  controller: categoryController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: "Product Category",
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20, top: 15),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        controller: priceController,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: "Product Price",
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 15),
+                    Expanded(
+                      child: TextFormField(
+                        controller: quantityController,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: "Product Quantity",
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: ElevatedButton(
+                  onPressed: () {
+                    String name = nameController.text;
+                    String category = categoryController.text;
+                    double price =
+                        double.tryParse(priceController.text) ?? 0.0;
+                    int quantity =
+                        int.tryParse(quantityController.text) ?? 0;
+                    if (name.isNotEmpty &&
+                        category.isNotEmpty &&
+                        price > 0 &&
+                        quantity > 0) {
+                      setState(() {
+                        cartItems.add(Product(
+                          name: name,
+                          category: category,
+                          price: price,
+                          quantity: quantity,
+                        ));
+                        // Clear the text fields
+                        nameController.clear();
+                        categoryController.clear();
+                        priceController.clear();
+                        quantityController.clear();
+                      });
+                    }
+                  },
+                  child: Text(
+                    "Add to Cart",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                  ),
+                ),
+              ),
+
+              SizedBox(height: 5),
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: const Text(
+                  "Cart Items",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              // Removed the Expanded and SingleChildScrollView widgets
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: cartItems.length,
+                itemBuilder: (context, index) {
+                  final product = cartItems[index];
+                  // Calculate total price for each product
+                  final totalPrice = product.price * product.quantity;
+                  return ListTile(
+                    title: Text(product.name),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                            "Category: ${product.category}\nPrice: \$${product.price}\nQuantity: ${product.quantity}"),
+                        Text(
+                          "Total Price: \$${totalPrice.toStringAsFixed(2)}",
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+              // Display total price of all items
+              Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(15),
+                    padding: const EdgeInsets.only(left: 10),
                     child: Text(
-                      "Product Details ",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20),
-              child: TextFormField(
-                controller: nameController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: "Product Name",
-                ),
-              ),
-            ),
-            SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20, top: 15),
-              child: TextFormField(
-                controller: categoryController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: "Product Category",
-                ),
-              ),
-            ),
-            SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20, top: 15),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      controller: priceController,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: "Product Price",
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 15),
-                  Expanded(
-                    child: TextFormField(
-                      controller: quantityController,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: "Product Quantity",
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: ElevatedButton(
-                onPressed: () {
-                  String name = nameController.text;
-                  String category = categoryController.text;
-                  double price =
-                      double.tryParse(priceController.text) ?? 0.0;
-                  int quantity =
-                      int.tryParse(quantityController.text) ?? 0;
-                  if (name.isNotEmpty &&
-                      category.isNotEmpty &&
-                      price > 0 &&
-                      quantity > 0) {
-                    setState(() {
-                      cartItems.add(Product(
-                        name: name,
-                        category: category,
-                        price: price,
-                        quantity: quantity,
-                      ));
-                      // Clear the text fields
-                      nameController.clear();
-                      categoryController.clear();
-                      priceController.clear();
-                      quantityController.clear();
-                    });
-                  }
-                },
-                child: Text(
-                  "Add to Cart",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                  ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                ),
-              ),
-            ),
-
-
-            SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20),
-              child: const Text(
-                "Cart Items",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
-              ),
-            ),
-            SizedBox(height: 10),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: cartItems.length,
-                      itemBuilder: (context, index) {
-                        final product = cartItems[index];
-                        // Calculate total price for each product
-                        final totalPrice = product.price * product.quantity;
-                        return ListTile(
-                          title: Text(product.name),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                  "Category: ${product.category}\nPrice: \$${product.price}\nQuantity: ${product.quantity}"),
-                              Text("Total Price: \$${totalPrice.toStringAsFixed(2)}"),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                    // Display total price of all items
-                    Text(
                       "Total Price: \$${getTotalPrice().toStringAsFixed(2)}",
                       style: TextStyle(
                           fontSize: 20,
@@ -292,47 +295,27 @@ class _ThirdAppState extends State<ThirdApp> {
                           fontWeight: FontWeight.bold
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 20),
-                  child: Text(
-                    "Total Price:",
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold
-                    ),
                   ),
-                ),
-
-
-                Padding(
-                  padding: const EdgeInsets.only(left: 30),
-                  child: ElevatedButton(
-                    onPressed: _generatePDF,
-                    child: Text(
-                      "Generate Bill",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8,bottom: 10),
+                    child: ElevatedButton(
+                      onPressed: _generatePDF,
+                      child: Text(
+                        "Generate Bill",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
                       ),
                     ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-
-                    ),
                   ),
-                ),
-
-
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

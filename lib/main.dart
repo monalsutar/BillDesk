@@ -1,6 +1,6 @@
-import 'package:bill_generation/login.dart';
 import 'package:flutter/material.dart';
 import 'package:bill_generation/second.dart';
+import 'package:bill_generation/login.dart';
 
 void main() {
   runApp(MyApp());
@@ -24,17 +24,16 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-
-
 class _MyHomePageState extends State<MyHomePage> {
-
-  TextEditingController merchantname = new TextEditingController();
-  TextEditingController categoryname = new TextEditingController();
+  TextEditingController merchantname = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
 
   @override
-  void dispose(){
+  void dispose() {
     merchantname.dispose();
-    categoryname.dispose();
+    email.dispose();
+    password.dispose();
     super.dispose();
   }
 
@@ -42,10 +41,11 @@ class _MyHomePageState extends State<MyHomePage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => SecondApp(mname,category),
+        builder: (context) => SecondApp(mname, category),
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,14 +59,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 "assets/images/logo.png",
                 width: 190,
                 height: 50,
-                //fit: BoxFit.fill,
               ),
             ),
             const SizedBox(height: 10),
             Container(
-              //height: MediaQuery.sizeOf(context).height,
-              //height: double.infinity,
-              width: MediaQuery.sizeOf(context).width,
+              width: MediaQuery.of(context).size.width,
               child: Padding(
                 padding: const EdgeInsets.all(40.0),
                 child: Column(
@@ -91,9 +88,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       textAlign: TextAlign.left,
                     ),
-
-
-
                     const SizedBox(height: 50),
                     TextField(
                       decoration: InputDecoration(
@@ -102,11 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         prefixIcon: Icon(Icons.person),
                       ),
                       controller: merchantname,
-
                     ),
-
-
-
                     const SizedBox(height: 18),
                     TextField(
                       decoration: InputDecoration(
@@ -114,34 +104,27 @@ class _MyHomePageState extends State<MyHomePage> {
                         hintText: "Email",
                         prefixIcon: Icon(Icons.email),
                       ),
-
+                      controller: email,
                     ),
-
-
-
                     const SizedBox(height: 18),
-                     TextField(
+                    TextField(
+                      obscureText: true, // Hides the entered text
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: "Password",
-                        prefixIcon: Icon(Icons.password)
+                        prefixIcon: Icon(Icons.password),
                       ),
-                      controller: categoryname,
+                      controller: password,
                     ),
-
-
-
                     const SizedBox(height: 20),
                     Row(
                       children: [
                         ElevatedButton(
                           onPressed: () {
                             String mname = merchantname.text;
-                            String category = categoryname.text;
+                            String category = password.text;
                             print("Name: $mname");
-
-                            getStarted(context,mname,category);
-
+                            getStarted(context, mname, category);
                           },
                           child: Text(
                             "Get Started",
@@ -153,7 +136,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue,
-
                           ),
                         ),
                         SizedBox(width: 8),
