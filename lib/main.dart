@@ -1,8 +1,14 @@
+import 'package:bill_generation/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:bill_generation/second.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:bill_generation/login.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(MyApp());
 }
 
@@ -28,6 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
   TextEditingController merchantname = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void dispose() {
@@ -37,18 +44,45 @@ class _MyHomePageState extends State<MyHomePage> {
     super.dispose();
   }
 
-  void getStarted(BuildContext context, String mname, String category) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => SecondApp(mname, category),
-      ),
-    );
+  void getStarted(BuildContext context, String mname, String category) async {
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email.text,
+        password: password.text,
+      );
+
+      final snackBar = SnackBar(
+        content: Text('Account created'),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+      // User successfully signed up, now you can save additional user data or navigate to the next screen.
+      // For example, you can save the merchant name along with the user ID to Firestore.
+
+      // Show Snackbar for successful account creation
+
+      // After saving the data, navigate to the next screen.
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (context) => SecondApp(mname, category),
+      //   ),
+      // );
+    } catch (e) {
+      // Handle any errors that occur during sign up.
+      final snackBar = SnackBar(
+        content: Text('Error occuring'),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      // Show Snackbar for error
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

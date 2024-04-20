@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:pdf/pdf.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server/gmail.dart'; 
 import 'dart:io';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:path_provider/path_provider.dart';
 
 class ThirdApp extends StatefulWidget {
-  const ThirdApp({Key? key}) : super(key: key);
+  final String customerEmail;
+  const ThirdApp({Key? key, required this.customerEmail}) : super(key: key);
 
   @override
   State<ThirdApp> createState() => _ThirdAppState();
@@ -32,6 +36,43 @@ class _ThirdAppState extends State<ThirdApp> {
   TextEditingController quantityController = TextEditingController();
 
   List<Product> cartItems = [];
+
+  _launchEmail(String email) async {
+    final Uri _emailLaunchUri = Uri(
+      scheme: 'mailto',
+      path: email,
+      queryParameters: {
+        'subject': 'Your Bill',
+        'body': _generateEmailBody(), // Call a function to generate email body
+      },
+    );
+
+    if (await canLaunch(_emailLaunchUri.toString())) {
+      await launch(_emailLaunchUri.toString());
+    } else {
+      throw 'Could not launch email';
+    }
+  }
+
+  String _generateEmailBody() {
+    String body = 'Dear customer,\n\n'
+        'Here is the list of items in your bill:\n\n';
+
+    for (var item in cartItems) {
+      body += 'Name: ${item.name}\n'
+          'Category: ${item.category}\n'
+          'Price: ${item.price}\n'
+          'Quantity: ${item.quantity}\n'
+          '---------------------------------------\n';
+    }
+
+    body += '\nTotal Price: ${getTotalPrice().toStringAsFixed(2)}\n\n'
+        'Thank you for shopping with us!\n\n'
+        'Best regards,\n'
+        'Merchant Name';
+
+    return body;
+  }
 
   @override
   void dispose() {
@@ -210,10 +251,8 @@ class _ThirdAppState extends State<ThirdApp> {
                   onPressed: () {
                     String name = nameController.text;
                     String category = categoryController.text;
-                    double price =
-                        double.tryParse(priceController.text) ?? 0.0;
-                    int quantity =
-                        int.tryParse(quantityController.text) ?? 0;
+                    double price = double.tryParse(priceController.text) ?? 0.0;
+                    int quantity = int.tryParse(quantityController.text) ?? 0;
                     if (name.isNotEmpty &&
                         category.isNotEmpty &&
                         price > 0 &&
@@ -247,9 +286,9 @@ class _ThirdAppState extends State<ThirdApp> {
               ),
 
               SizedBox(height: 5),
-              Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
-                child: const Text(
+              const Padding(
+                padding: EdgeInsets.only(left: 20, right: 20),
+                child: Text(
                   "Cart Items",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -292,12 +331,11 @@ class _ThirdAppState extends State<ThirdApp> {
                       style: TextStyle(
                           fontSize: 20,
                           color: Colors.blue,
-                          fontWeight: FontWeight.bold
-                      ),
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 8,bottom: 10),
+                    padding: const EdgeInsets.only(left: 8, bottom: 10),
                     child: ElevatedButton(
                       onPressed: _generatePDF,
                       child: Text(
@@ -312,6 +350,25 @@ class _ThirdAppState extends State<ThirdApp> {
                       ),
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8, bottom: 10),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        _launchEmail(widget.customerEmail);
+                      },
+                      child: Text(
+                        "Send Mail",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            Colors.orange, // You can adjust the color as needed
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ],
@@ -320,10 +377,4 @@ class _ThirdAppState extends State<ThirdApp> {
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: ThirdApp(),
-  ));
 }

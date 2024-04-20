@@ -5,25 +5,29 @@ class SecondApp extends StatefulWidget {
   final String mname;
   final String cat;
 
-  SecondApp(this.mname, this.cat, {Key? key}) : super(key: key);
+   SecondApp({
+    Key? key,
+    required this.cat,
+    required this.mname,
+  }) : super(key: key);
 
   @override
   State<SecondApp> createState() => _SecondAppState();
 }
 
 class _SecondAppState extends State<SecondApp> {
-  TextEditingController customerNameController = TextEditingController();
+  TextEditingController customerEmailController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
 
   @override
   void dispose() {
-    customerNameController.dispose();
+    customerEmailController.dispose();
     phoneNumberController.dispose();
     super.dispose();
   }
 
   void resetTextFields() {
-    customerNameController.clear();
+    customerEmailController.clear();
     phoneNumberController.clear();
   }
 
@@ -67,16 +71,16 @@ class _SecondAppState extends State<SecondApp> {
                   child: Column(
                     children: [
                       TextField(
-                        controller: customerNameController,
+                        controller: customerEmailController,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
-                          hintText: "Customer Name:",
+                          hintText: "Customer Email:",
                           hintStyle: TextStyle(fontSize: 18.6),
                           prefixIcon: Icon(Icons.person),
                         ),
                       ),
                       SizedBox(height: 29),
-                      TextField(
+                      TextField(  
                         controller: phoneNumberController,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
@@ -93,7 +97,7 @@ class _SecondAppState extends State<SecondApp> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ThirdApp(),
+                                  builder: (context) => ThirdApp(customerEmail: customerEmailController.text),
                                 ),
                               );
                             },

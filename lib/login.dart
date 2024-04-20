@@ -1,5 +1,6 @@
 import 'package:bill_generation/second.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -9,22 +10,6 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -35,16 +20,33 @@ class _MyHomePageState extends State<MyHomePage> {
     super.dispose();
   }
 
-  void getStarted(BuildContext context) {
-    String email = emailController.text;
-    String password = passwordController.text;
-    // You can pass email and password to the SecondApp if needed
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => SecondApp(email, password),
-      ),
-    );
+  void getStarted(BuildContext context) async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+       final snackBar = SnackBar(
+              content: Text('Login Successful'),
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      // If login is successful, navigate to the next screen
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SecondApp( mname: emailController.text, // Passing email as mname for demonstration
+          cat: passwordController.text,),
+        ),
+      );
+    } catch (e) {
+      // Handle login errors here
+  final snackBar = SnackBar(
+              content: Text('Login Failed'),
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      // If login is successful, navigate to the next screen
+      // You can show an error message to the user if login fails
+    }
   }
 
   @override
@@ -136,8 +138,3 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-void main() {
-  runApp(MaterialApp(
-    home: Login(),
-  ));
-}
