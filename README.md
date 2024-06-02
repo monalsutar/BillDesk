@@ -1,6 +1,7 @@
 # bill_generation
 
 A new Flutter project.
+BillDesk Flutter Application which will calculate the merchant bill and it will genrate PDF of the bill.
 
 ## Getting Started
 
