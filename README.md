@@ -1,4 +1,4 @@
-# bill_generation
+# Bill_Desk Project
 
 A new Flutter project.
 
