@@ -53,6 +53,15 @@ class _ThirdAppState extends State<ThirdApp> {
     } else {
       throw 'Could not launch email';
     }
+    try {
+      if (await canLaunch(_emailLaunchUri.toString())) {
+        await launch(_emailLaunchUri.toString());
+      } else {
+        throw 'Could not launch email';
+      }
+    } catch (e) {
+      print('Error launching email: $e');
+    }
   }
 
 
@@ -355,7 +364,7 @@ class _ThirdAppState extends State<ThirdApp> {
                 children: [
 
                   Padding(
-                    padding: const EdgeInsets.only(left: 24, bottom: 10),
+                    padding: const EdgeInsets.only(left: 5, bottom: 10),
                     child: ElevatedButton(
                       onPressed: _generatePDF,
                       child: Text(

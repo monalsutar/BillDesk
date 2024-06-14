@@ -58,36 +58,51 @@ class _SecondAppState extends State<SecondApp> {
       appBar: AppBar(
         actions: [
           // Add this IconButton to the AppBar
-          IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: () {
-              logout(context);
-            },
+          Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: IconButton(
+              icon: Icon(Icons.logout),
+              onPressed: () {
+                logout(context);
+              },
+            ),
           ),
         ],
+        title: Padding(
+          padding: const EdgeInsets.only(left: 5.0,top: 23,bottom: 2),
+          child: Image.asset(
+            'assets/images/logo.png', // Adjust the path as per your project structure
+            width: 190,
+            height: 170,
+            // You can adjust width and height as per your logo size
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Container(
           child: Column(
             children: [
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 70,
-                color: Colors.blue,
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: Text(
-                        "Merchant: " + merchantEmail,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
+              Padding(
+                padding: const EdgeInsets.only(top: 24.0),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 60,
+                  color: Colors.blue,
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: Text(
+                          "Merchant: " + merchantEmail,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               SizedBox(height: 40),
@@ -143,7 +158,7 @@ class _SecondAppState extends State<SecondApp> {
                               backgroundColor: Colors.blue,
                             ),
                           ),
-                          SizedBox(width: 62),
+                          SizedBox(width: 2),
                           ElevatedButton(
                             onPressed: () {
                               resetTextFields();
