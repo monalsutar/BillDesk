@@ -9,7 +9,8 @@ import 'package:path_provider/path_provider.dart';
 
 class ThirdApp extends StatefulWidget {
   final String customerEmail;
-  const ThirdApp({Key? key, required this.customerEmail}) : super(key: key);
+  final String merchantName;
+  const ThirdApp({Key? key, required this.customerEmail, required this.merchantName}) : super(key: key);
 
   @override
   State<ThirdApp> createState() => _ThirdAppState();
@@ -70,7 +71,7 @@ class _ThirdAppState extends State<ThirdApp> {
     body += '\nTotal\tPrice:\tRs\t${getTPrice().toStringAsFixed(2)}\n\n'
         'Thank\tyou\tfor\tshopping\twith\tus!\n\n'
         'Best\tregards,\n'
-        'Merchant\tName';
+        'Merchant\tName,\t${widget.merchantName}';
 
 
     // No need to encode the email body
