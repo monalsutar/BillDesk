@@ -1,7 +1,7 @@
-import 'package:bill_generation/main.dart';
-import 'package:bill_generation/second.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:bill_generation/main.dart'; // Assuming this is your main.dart file
+import 'package:bill_generation/second.dart'; // Assuming this is where SecondApp is defined
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -14,7 +14,6 @@ class _LoginState extends State<Login> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-
   @override
   void dispose() {
     emailController.dispose();
@@ -22,7 +21,7 @@ class _LoginState extends State<Login> {
     super.dispose();
   }
 
-  void _loginUser() async {
+  void _loginUser(BuildContext context) async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text,
@@ -55,7 +54,7 @@ class _LoginState extends State<Login> {
     }
   }
 
-  void _registerUser() async {
+  void _registerUser(BuildContext context) async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text,
@@ -88,37 +87,6 @@ class _LoginState extends State<Login> {
     }
   }
 
-
-  //
-  // void getStarted(BuildContext context) async {
-  //   try {
-  //     UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-  //       email: emailController.text,
-  //       password: passwordController.text,
-  //     );
-  //      final snackBar = SnackBar(
-  //             content: Text('Login Successful'),
-  //           );
-  //           ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  //     // If login is successful, navigate to the next screen
-  //     Navigator.push(
-  //       context,
-  //       MaterialPageRoute(
-  //         builder: (context) => SecondApp( mname: emailController.text, // Passing email as mname for demonstration
-  //         cat: passwordController.text,),
-  //       ),
-  //     );
-  //   } catch (e) {
-  //     // Handle login errors here
-  // final snackBar = SnackBar(
-  //             content: Text('Login Failed'),
-  //           );
-  //           ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  //     // If login is successful, navigate to the next screen
-  //     // You can show an error message to the user if login fails
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -145,7 +113,7 @@ class _LoginState extends State<Login> {
                       text: TextSpan(
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 49,
+                          fontSize: 48,
                           color: Colors.black,
                         ),
                         children: [
@@ -180,44 +148,53 @@ class _LoginState extends State<Login> {
                       ),
                       obscureText: true,
                     ),
-                    const SizedBox(height: 40),
-                    TextButton(
-                      onPressed: () {
-                        _registerUser();
-                      },
-                      child: Text(
-                        "Let's Start",
-                        style: TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                      style: TextButton.styleFrom(
-                        backgroundColor: Colors.blue,
-                      ),
-                    ),
+                    const SizedBox(height: 25),
+                    Row(
+                      children: [
 
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (context) => MyApp()),
-                        );
-                      },
-                      child: Text(
-                        "SignUp",
-                        style: TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          ElevatedButton(
+                            onPressed: () {
+                              _loginUser(context); // Call _loginUser for login
+                            },
+                            child: Text(
+                              "Lets Start",
+                              style: TextStyle(
+                                fontSize: 19,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              //padding: EdgeInsets.symmetric(vertical: 5),
+                              backgroundColor: Colors.blue,
+                            ),
                         ),
-                      ),
-                      style: TextButton.styleFrom(
-                        backgroundColor: Colors.blue,
-                      ),
+                        SizedBox(width: 2),
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              //_registerUser(context); // Call _registerUser for registration
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(builder: (context) => MyHomePage()),
+                              );
+                            },
+                            child: Text(
+                              "Create Account",
+                              style: TextStyle(
+                                fontSize: 19,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.symmetric(horizontal: 5,vertical: 5),
+                              backgroundColor: Colors.black38,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-
                   ],
                 ),
               ),
@@ -228,4 +205,3 @@ class _LoginState extends State<Login> {
     );
   }
 }
-

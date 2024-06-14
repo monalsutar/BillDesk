@@ -28,10 +28,10 @@ class _SplashScreenState extends State<SplashScreen> {
         MaterialPageRoute(builder: (context) => SecondApp(mname: user.displayName ?? '', cat: '')),
       );
     } else {
-      // Navigate to the Main screen (signup page) if the user is not logged in
+      // Navigate to the Login screen if the user is not logged in
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => MyApp()),
+        MaterialPageRoute(builder: (context) => Login()), // Ensure this is the correct login screen
       );
     }
   }

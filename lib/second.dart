@@ -4,13 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:bill_generation/login.dart';
 
 class SecondApp extends StatefulWidget {
-  final String mname;
-  final String cat;
-
-   SecondApp({
-    Key? key,
-    required this.cat,
-    required this.mname,
+  const SecondApp({
+    Key? key, required String mname, required String cat,
   }) : super(key: key);
 
   @override
@@ -20,12 +15,27 @@ class SecondApp extends StatefulWidget {
 class _SecondAppState extends State<SecondApp> {
   TextEditingController customerEmailController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
+  String merchantEmail = '';
+  String merchantName ='';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadMerchantEmail();
+  }
 
   @override
   void dispose() {
     customerEmailController.dispose();
     phoneNumberController.dispose();
     super.dispose();
+  }
+
+  void _loadMerchantEmail() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    setState(() {
+      merchantEmail = user?.email ?? 'Unknown';
+    });
   }
 
   void resetTextFields() {
@@ -41,7 +51,6 @@ class _SecondAppState extends State<SecondApp> {
           (Route<dynamic> route) => false,
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +79,7 @@ class _SecondAppState extends State<SecondApp> {
                     Padding(
                       padding: const EdgeInsets.all(15),
                       child: Text(
-                        "Merchant: " + widget.mname,
+                        "Merchant: " + merchantEmail,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 17,
@@ -102,7 +111,7 @@ class _SecondAppState extends State<SecondApp> {
                         ),
                       ),
                       SizedBox(height: 29),
-                      TextField(  
+                      TextField(
                         controller: phoneNumberController,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
@@ -119,7 +128,7 @@ class _SecondAppState extends State<SecondApp> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ThirdApp(customerEmail: customerEmailController.text),
+                                  builder: (context) => ThirdApp(customerEmail: customerEmailController.text,merchantName: merchantEmail,),
                                 ),
                               );
                             },

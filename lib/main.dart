@@ -1,11 +1,10 @@
-import 'package:bill_generation/firebase_options.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:bill_generation/firebase_options.dart';
 import 'package:bill_generation/login.dart';
 import 'package:bill_generation/second.dart';
 import 'splash_screen.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,7 +29,6 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
-
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -41,8 +39,6 @@ class _MyHomePageState extends State<MyHomePage> {
   TextEditingController password = TextEditingController();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-
-
   @override
   void dispose() {
     merchantname.dispose();
@@ -51,12 +47,10 @@ class _MyHomePageState extends State<MyHomePage> {
     super.dispose();
   }
 
-
-
   void getStarted(BuildContext context, String mname, String category) async {
     try {
-      UserCredential userCredential =
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
         email: email.text,
         password: password.text,
       );
@@ -82,13 +76,12 @@ class _MyHomePageState extends State<MyHomePage> {
     } catch (e) {
       // Handle any errors that occur during sign up.
       final snackBar = SnackBar(
-        content: Text('Error occuring'),
+        content: Text('Error occurring'),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       // Show Snackbar for error
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       text: TextSpan(
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 43,
+                          fontSize: 48,
                           color: Colors.black,
                         ),
                         children: [
@@ -125,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             text: "Calculate",
                             style: TextStyle(
                               color: Colors.blue,
-                              fontSize: 51,
+                              fontSize: 52,
                             ),
                           ),
                           TextSpan(text: " your bills easily with us"),
@@ -184,7 +177,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ),
                         SizedBox(width: 2),
-
                         TextButton(
                           onPressed: () {
                             Navigator.push(
