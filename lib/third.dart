@@ -191,216 +191,230 @@ class _ThirdAppState extends State<ThirdApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Padding(
+          padding:
+          const EdgeInsets.only(top: 28,bottom: 5,left: 150),
+          child: Image.asset(
+            'assets/images/logo.png', // Adjust the path as per your project structure
+            width: 250,
+            height: 190,
+            // You can adjust width and height as per your logo size
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 60,
-                color: Colors.blue,
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: Text(
-                        "Product Details ",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 60,
+                  color: Colors.blue,
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: Text(
+                          "Product Details ",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  child: TextFormField(
+                    controller: nameController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Product Name",
                     ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
-                child: TextFormField(
-                  controller: nameController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "Product Name",
                   ),
                 ),
-              ),
-              SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20, top: 15),
-                child: TextFormField(
-                  controller: categoryController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "Product Category",
+                SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20, top: 15),
+                  child: TextFormField(
+                    controller: categoryController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Product Category",
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20, top: 15),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: priceController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: "Product Price",
+                SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20, top: 15),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: priceController,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: "Product Price",
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(width: 15),
-                    Expanded(
-                      child: TextFormField(
-                        controller: quantityController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: "Product Quantity",
+                      SizedBox(width: 15),
+                      Expanded(
+                        child: TextFormField(
+                          controller: quantityController,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: "Product Quantity",
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20),
-
-              Padding(
-                padding: const EdgeInsets.only(left: 15,right: 15), // Remove the left padding
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width, // Set the width to the device width
-                  child: ElevatedButton(
-                    onPressed: () {
-                      String name = nameController.text;
-                      String category = categoryController.text;
-                      double price = double.tryParse(priceController.text) ?? 0.0;
-                      int quantity = int.tryParse(quantityController.text) ?? 0;
-                      if (name.isNotEmpty &&
-                          category.isNotEmpty &&
-                          price > 0 &&
-                          quantity > 0) {
-                        setState(() {
-                          cartItems.add(Product(
-                            name: name,
-                            category: category,
-                            price: price,
-                            quantity: quantity,
-                          ));
-                          // Clear the text fields
-                          nameController.clear();
-                          categoryController.clear();
-                          priceController.clear();
-                          quantityController.clear();
-                        });
-                      }
-                    },
-                    child: Text(
-                      "Add to Cart",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                    ),
+                    ],
                   ),
                 ),
-              ),
+                SizedBox(height: 20),
 
-
-              SizedBox(height: 5),
-              const Padding(
-                padding: EdgeInsets.only(left: 24, right: 20),
-                child: Text(
-                  "Cart Items:",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: cartItems.length,
-                itemBuilder: (context, index) {
-                  final product = cartItems[index];
-                  // Calculate total price for each product
-                  final totalPrice = product.price * product.quantity;
-                  return ListTile(
-                    title: Text(product.name),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                            "Category: ${product.category}\nPrice: \Rs ${product.price}\nQuantity: ${product.quantity}"),
-                        Text(
-                          "Total Price: \Rs ${totalPrice.toStringAsFixed(2)}",
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 80,bottom: 10,top: 10),
-                child: Text(
-                  "Total Price: \Rs ${getTotalPrice().toStringAsFixed(2)}",
-                  style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                    backgroundColor: Colors.yellow
-                  ),
-                ),
-              ),
-              // Display total price of all items
-              Row(
-                children: [
-
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5, bottom: 10),
-                    child: ElevatedButton(
-                      onPressed: _generatePDF,
-                      child: Text(
-                        "Save Bill PDF",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                        ),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 4, bottom: 10),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15,right: 15), // Remove the left padding
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width, // Set the width to the device width
                     child: ElevatedButton(
                       onPressed: () {
-                        _launchEmail(widget.customerEmail);
+                        String name = nameController.text;
+                        String category = categoryController.text;
+                        double price = double.tryParse(priceController.text) ?? 0.0;
+                        int quantity = int.tryParse(quantityController.text) ?? 0;
+                        if (name.isNotEmpty &&
+                            category.isNotEmpty &&
+                            price > 0 &&
+                            quantity > 0) {
+                          setState(() {
+                            cartItems.add(Product(
+                              name: name,
+                              category: category,
+                              price: price,
+                              quantity: quantity,
+                            ));
+                            // Clear the text fields
+                            nameController.clear();
+                            categoryController.clear();
+                            priceController.clear();
+                            quantityController.clear();
+                          });
+                        }
                       },
                       child: Text(
-                        "Send Bill Mail",
+                        "Add to Cart",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
                         ),
                       ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            Colors.orange, // You can adjust the color as needed
+                        backgroundColor: Colors.blue,
                       ),
                     ),
                   ),
-                ],
-              ),
-            ],
+                ),
+
+
+                SizedBox(height: 5),
+                const Padding(
+                  padding: EdgeInsets.only(left: 24, right: 20),
+                  child: Text(
+                    "Cart Items:",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: cartItems.length,
+                  itemBuilder: (context, index) {
+                    final product = cartItems[index];
+                    // Calculate total price for each product
+                    final totalPrice = product.price * product.quantity;
+                    return ListTile(
+                      title: Text(product.name),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                              "Category: ${product.category}\nPrice: \Rs ${product.price}\nQuantity: ${product.quantity}"),
+                          Text(
+                            "Total Price: \Rs ${totalPrice.toStringAsFixed(2)}",
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 80,bottom: 10,top: 10),
+                  child: Text(
+                    "Total Price: \Rs ${getTotalPrice().toStringAsFixed(2)}",
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                      backgroundColor: Colors.yellow
+                    ),
+                  ),
+                ),
+                // Display total price of all items
+                Row(
+                  children: [
+
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5, bottom: 10),
+                      child: ElevatedButton(
+                        onPressed: _generatePDF,
+                        child: Text(
+                          "Save Bill PDF",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 4, bottom: 10),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _launchEmail(widget.customerEmail);
+                        },
+                        child: Text(
+                          "Send Bill Mail",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              Colors.orange, // You can adjust the color as needed
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

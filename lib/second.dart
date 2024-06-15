@@ -69,7 +69,7 @@ class _SecondAppState extends State<SecondApp> {
           ),
         ],
         title: Padding(
-          padding: const EdgeInsets.only(left: 5.0,top: 23,bottom: 2),
+          padding: const EdgeInsets.only(top: 23,bottom: 2),
           child: Image.asset(
             'assets/images/logo.png', // Adjust the path as per your project structure
             width: 190,
@@ -139,43 +139,51 @@ class _SecondAppState extends State<SecondApp> {
                       Row(
                         children: [
                           ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ThirdApp(customerEmail: customerEmailController.text,merchantName: merchantEmail,),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ThirdApp(
+                                      customerEmail: customerEmailController.text,
+                                      merchantName: merchantEmail,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                "Done",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
                                 ),
-                              );
-                            },
-                            child: Text(
-                              "Done",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
                               ),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blue,
-                            ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.blue,
+
+                              ),
                           ),
-                          SizedBox(width: 2),
-                          ElevatedButton(
-                            onPressed: () {
-                              resetTextFields();
-                            },
-                            child: Text(
-                              "New Customer",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
+                          SizedBox(width: 50),
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                resetTextFields();
+                              },
+                              child: Text(
+                                "New Customer",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                ),
                               ),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.black38,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.black38,
+
+                              ),
                             ),
                           ),
                         ],
                       )
+
                     ],
                   ),
                 ),

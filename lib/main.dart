@@ -155,51 +155,57 @@ class _MyHomePageState extends State<MyHomePage> {
                       controller: password,
                     ),
                     const SizedBox(height: 20),
-                    Row(
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            String mname = merchantname.text;
-                            String category = password.text;
-                            print("Name: $mname");
-                            getStarted(context, mname, category);
-                          },
-                          child: Text(
-                            "Get Started",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                          ),
-                        ),
-                        SizedBox(width: 2),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Login(),
+
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Adjust the alignment if necessary
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              String mname = merchantname.text;
+                              String category = password.text;
+                              print("Name: $mname");
+                              getStarted(context, mname, category);
+                            },
+                            child: Text(
+                              "Get Started",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
                               ),
-                            );
-                          },
-                          child: Text(
-                            "Continue Log in",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue,
                             ),
                           ),
-                          style: TextButton.styleFrom(
-                            backgroundColor: Colors.black38,
+                          SizedBox(width: 2),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Login(),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              "Continue Log in",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            style: TextButton.styleFrom(
+                              backgroundColor: Colors.black54,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
+                    )
+
                   ],
                 ),
               ),

@@ -169,7 +169,7 @@ class _LoginState extends State<Login> {
                               backgroundColor: Colors.blue,
                             ),
                         ),
-                        SizedBox(width: 2),
+                        SizedBox(width: 10),
                         Expanded(
                           child: ElevatedButton(
                             onPressed: () {
