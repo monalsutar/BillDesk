@@ -87,6 +87,22 @@ class _LoginState extends State<Login> {
     }
   }
 
+  void _resetPassword(BuildContext context) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: emailController.text);
+      final snackBar = SnackBar(
+        content: Text('Password Reset Email Sent'),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } catch (e) {
+      final snackBar = SnackBar(
+        content: Text('Error Sending Password Reset Email'),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      print('Password reset error: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -148,7 +164,25 @@ class _LoginState extends State<Login> {
                       ),
                       obscureText: true,
                     ),
-                    const SizedBox(height: 25),
+
+                    const SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 180.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          _resetPassword(context); // Call _resetPassword when the link is tapped
+                        },
+                        child: Text(
+                          "Forgot Password?",
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
                     Row(
                       children: [
 
@@ -196,6 +230,7 @@ class _LoginState extends State<Login> {
                         ),
                       ],
                     ),
+
                   ],
                 ),
               ),

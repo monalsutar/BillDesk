@@ -30,6 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  url_launcher: ^6.0.20
   flutter_native_splash: ^2.0.0
   flutter_email_sender: ^5.0.1
   pdf: ^3.6.0
@@ -42,7 +43,6 @@ dependencies:
   firebase_core: ^2.27.0
   firebase_auth: ^4.17.8
   cloud_firestore: ^4.15.8
-  url_launcher: ^6.2.6
   mailer: ^6.1.0
 
 dev_dependencies:
